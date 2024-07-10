@@ -7,6 +7,21 @@ import FamilyControls
 // Make sure that your class name matches the NSExtensionPrincipalClass in your Info.plist.
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     let store = ManagedSettingsStore()
+    
+    let appGroupID = "group.quiettime"
+    let userDefaultsKey = "ScreenTimeSelection"
+    let decoder = PropertyListDecoder()
+
+    func savedSelection() -> FamilyActivitySelection? {
+        let defaults = UserDefaults(suiteName: appGroupID)
+        guard let data = defaults?.data(forKey: userDefaultsKey) else {
+            return nil
+        }
+        return try? decoder.decode(
+            FamilyActivitySelection.self,
+            from: data
+        )
+    }
 
     func scheduleNotification(with title: String) {
         let center = UNUserNotificationCenter.current()
@@ -38,8 +53,8 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         // Handle the start of the interval.
         print("Interval began")
         scheduleNotification(with: "interval did start")
-//        store.shield.applicationCategories = .all(except: selection.applicationTokens)
-        
+        let selections = savedSelection()
+        store.shield.applicationCategories = .all(except: selections!.applicationTokens)
     }
     
     override func intervalDidEnd(for activity: DeviceActivityName) {

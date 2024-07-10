@@ -8,10 +8,10 @@ import ManagedSettings
 let store = ManagedSettingsStore()
 
 let schedule = DeviceActivitySchedule(
-    intervalStart: DateComponents(hour: 22, minute: 04, second: 0),
+    intervalStart: DateComponents(hour: 09, minute: 36, second: 0),
     intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
     repeats: true,
-    warningTime: DateComponents(minute: 14)
+    warningTime: DateComponents(minute: 1)
 )
 
 func description(for selection: FamilyActivitySelection) -> String {
@@ -141,18 +141,19 @@ class ViewController: UIViewController {
         }
     }
     
+    let appGroupID = "group.quiettime"
     
     func saveSelection(selection: FamilyActivitySelection) {
-        let defaults = UserDefaults.standard
-        defaults.set(
+        let defaults = UserDefaults(suiteName: appGroupID)
+        defaults?.set(
             try? encoder.encode(selection),
             forKey: userDefaultsKey
         )
     }
-    
+
     func savedSelection() -> FamilyActivitySelection? {
-        let defaults = UserDefaults.standard
-        guard let data = defaults.data(forKey: userDefaultsKey) else {
+        let defaults = UserDefaults(suiteName: appGroupID)
+        guard let data = defaults?.data(forKey: userDefaultsKey) else {
             return nil
         }
         return try? decoder.decode(
