@@ -8,7 +8,7 @@ import ManagedSettings
 let store = ManagedSettingsStore()
 
 let schedule = DeviceActivitySchedule(
-    intervalStart: DateComponents(hour: 09, minute: 36, second: 0),
+    intervalStart: DateComponents(hour: 09, minute: 57, second: 0),
     intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
     repeats: true,
     warningTime: DateComponents(minute: 1)
