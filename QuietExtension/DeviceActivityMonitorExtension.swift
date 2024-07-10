@@ -63,6 +63,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         super.eventDidReachThreshold(event, activity: activity)
         scheduleNotification(with: "event did reach threshold warning")
         store.shield.applicationCategories = nil
+        store.shield.webDomainCategories = nil
     }
     
     override func intervalWillStartWarning(for activity: DeviceActivityName) {
