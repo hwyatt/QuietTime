@@ -11,7 +11,7 @@ let schedule = DeviceActivitySchedule(
     intervalStart: DateComponents(hour: 0, minute: 0, second: 0),
     intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
     repeats: true,
-    warningTime: DateComponents(minute: 1)
+    warningTime: DateComponents(minute: 15)
 )
 
 func description(for selection: FamilyActivitySelection) -> String {
