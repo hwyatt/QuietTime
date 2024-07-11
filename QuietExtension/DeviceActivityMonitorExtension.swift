@@ -9,6 +9,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     
     let appGroupID = "group.quiettime"
     let userDefaultsKey = "ScreenTimeSelection"
+    let bibleReadKey = "BibleRead"
     let decoder = PropertyListDecoder()
 
     func savedSelection() -> FamilyActivitySelection? {
@@ -49,6 +50,12 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     override func intervalDidStart(for activity: DeviceActivityName) {
         super.intervalDidStart(for: activity)
         scheduleNotification(with: "interval did start")
+        
+        let defaults = UserDefaults(suiteName: appGroupID)
+        if defaults?.bool(forKey: bibleReadKey) == true {
+            return
+        }
+        
         let selections = savedSelection()
         store.shield.applicationCategories = .all(except: selections!.applicationTokens)
         store.shield.webDomainCategories = .all()
@@ -64,6 +71,9 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         scheduleNotification(with: "event did reach threshold warning")
         store.shield.applicationCategories = nil
         store.shield.webDomainCategories = nil
+        
+        let defaults = UserDefaults(suiteName: appGroupID)
+        defaults?.set(true, forKey: bibleReadKey)
     }
     
     override func intervalWillStartWarning(for activity: DeviceActivityName) {
