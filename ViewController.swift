@@ -49,6 +49,7 @@ struct ScreenTimeSelectAppsContentView: View {
             Text("Selected Activities: \(description(for: model.activitySelection))")
             Button {
                 store.shield.applicationCategories = nil
+                store.shield.webDomainCategories = nil
             } label: {
                 Text("Remove Shield")
             }
